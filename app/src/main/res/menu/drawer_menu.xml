@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_enviar"
+            android:icon="@drawable/ic_enviar"
+            android:title="Enviar nova ocorrência" />
+        <item android:id="@+id/nav_ocorrencias"
+            android:icon="@drawable/ic_ocorrencias"
+            android:title="Visualizar ocorrências" />
+        <item android:id="@+id/nav_dados"
+            android:icon="@drawable/ic_dados"
+            android:title="Visualizar dados" />
+    </group>
+</menu>
