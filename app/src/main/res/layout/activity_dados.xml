@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DadosActivity"
-    android:background="@color/colorAccent">
+    android:background="#E8E4E4">
 
     <TableRow
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Enviar Dados" />
+            android:text="Acessar sua conta" />
     </TableRow>
 
     <TableRow
@@ -68,6 +68,20 @@
             android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Salvar" />
+            android:text="Entrar" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/btn_cadastrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Cadastre-se" />
     </TableRow>
 </TableLayout>
