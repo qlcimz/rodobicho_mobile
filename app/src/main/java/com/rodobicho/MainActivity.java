@@ -7,18 +7,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private ImageButton btnDados;
+    private ImageButton btnEnviar;
+    private ImageButton btnOcorrencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnDados = (ImageButton) findViewById(R.id.btn_dados);
+        btnOcorrencias = (ImageButton) findViewById(R.id.btn_ocorrencias);
+        btnEnviar = (ImageButton) findViewById(R.id.btn_enviar);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -32,8 +42,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        btnDados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navegarDados();
+            }
+        });
+
+        btnOcorrencias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navegarOcorrencias();
+            }
+        });
+
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navegarEnviar();
+            }
+        });
+
 
     }
+
+    public void navegarDados(){
+        Intent intent = new Intent(this, DadosActivity.class);
+        startActivity(intent);
+    }
+
+    public void navegarOcorrencias(){
+        Intent intent = new Intent(this, OcorrenciasActivity.class);
+        startActivity(intent);
+    }
+
+    public void navegarEnviar(){
+        Intent intent = new Intent(this, EnviarActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onNavigationItemSelected (@NonNull MenuItem item) {
