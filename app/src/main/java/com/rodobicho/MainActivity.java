@@ -7,7 +7,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageButton btnDados;
     private ImageButton btnEnviar;
     private ImageButton btnOcorrencias;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,25 +70,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void navegarDados(){
+    public void navegarDados() {
         Intent intent = new Intent(this, DadosActivity.class);
         startActivity(intent);
     }
 
-    public void navegarOcorrencias(){
+    public void navegarOcorrencias() {
         Intent intent = new Intent(this, OcorrenciasActivity.class);
         startActivity(intent);
     }
 
-    public void navegarEnviar(){
+    public void navegarEnviar() {
         Intent intent = new Intent(this, EnviarActivity.class);
         startActivity(intent);
     }
 
 
     @Override
-    public boolean onNavigationItemSelected (@NonNull MenuItem item) {
-        switch (item.getItemId()){
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.nav_enviar:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new EnviarFragment()).commit();
@@ -106,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed(){
-        if (drawer.isDrawerOpen(GravityCompat.START)){
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -118,4 +122,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+
 }
