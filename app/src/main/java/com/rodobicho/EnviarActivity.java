@@ -1,20 +1,43 @@
 package com.rodobicho;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class EnviarActivity extends AppCompatActivity implements LocationListener {
     private LocationManager locationManager;
     private TextView textView;
+    private Button btnFoto;
+    private ImageView foto_1, foto_2;
+    private String pathToFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +62,59 @@ public class EnviarActivity extends AppCompatActivity implements LocationListene
         Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
 
         onLocationChanged(location);
+
+        // Uso da Câmera
+        btnFoto = findViewById(R.id.btn_foto);
+        foto_1 = findViewById(R.id.foto_1);
+        foto_2 = findViewById(R.id.foto_2);
+
+        if (Build.VERSION.SDK_INT>=23) {
+            requestPermissions(new String []{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
+        }
+        btnFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchPictureTakerAction();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == 1){
+                Bitmap bitmap = BitmapFactory.decodeFile(pathToFile);
+                foto_1.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    private void dispatchPictureTakerAction() {
+        Intent takePic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePic.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            photoFile = createPhotoFile();
+            if (photoFile != null){
+            pathToFile = photoFile.getAbsolutePath();
+            Uri photoURI = FileProvider.getUriForFile(EnviarActivity.this, "com.rodobicho.fileprovider", photoFile);
+            takePic.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePic, 1);
+            }
+        }
+    }
+
+    private File createPhotoFile() {
+        String name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = null;
+        try {
+            image = File.createTempFile(name, ".jpg", storageDir);
+        } catch (IOException e) {
+            Log.d("createTempFile", "Excep : " + e.toString());
+        }
+        return image;
     }
 
     /*
